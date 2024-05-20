@@ -1,6 +1,6 @@
 description: Conditional Behavior
 
-compatible: "zmk,behavior-conditional"
+compatible: "zmk,behavior-cond"
 
 properties:
   slot:
@@ -10,4 +10,4 @@ properties:
     type: phandle-array
     required: true
 
-include: [zero_param.yaml]
+include: zero_param.yaml

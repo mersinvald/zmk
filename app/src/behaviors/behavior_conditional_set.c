@@ -1,4 +1,4 @@
-#define DT_DRV_COMPAT zmk_conditional_set
+#define DT_DRV_COMPAT zmk_behavior_cond_set
 
 // Dependencies
 #include <zephyr/device.h>
@@ -12,13 +12,15 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #if DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT)
 
-static uint8_t conditions[CONDITION_COUNT];
+static uint8_t conditions[CONDITION_SLOT_COUNT];
 
 // Initialization Function
 static int conditional_set_init(const struct device *dev) {
     for(int i = 0; i < CONDITION_SLOT_COUNT; i++) {
         conditions[i] = 0;
     }
+
+    LOG_DBG("initialized %d slots to 0", CONDITION_SLOT_COUNT);
 
     return 0;
 };
@@ -28,9 +30,15 @@ static int on_conditional_set_binding_pressed(struct zmk_behavior_binding *bindi
     uint8_t slot = binding->param1;
     uint8_t condition = binding->param2;
 
-    if (condition[slot] != condition) {
+    if (slot >= CONDITION_SLOT_COUNT) {
+        LOG_ERR("requested slot if out-of-bounds: assert(%d < %d)", slot, CONDITION_SLOT_COUNT);
+        return ZMK_BEHAVIOR_OPAQUE;
+    }
+
+    if (conditions[slot] != condition) {
+        LOG_DBG("slot %d change %d -> %d", slot, conditions[slot], condition);
         conditions[slot] = condition;
-        raise_zmk_conditional_state_changed(slot, condition);
+        raise_conditional_state_changed(slot, condition);
     }
 
     return ZMK_BEHAVIOR_OPAQUE;
@@ -38,7 +46,7 @@ static int on_conditional_set_binding_pressed(struct zmk_behavior_binding *bindi
 
 static int on_conditional_set_binding_released(struct zmk_behavior_binding *binding,
                                         struct zmk_behavior_binding_event event) {
-    return ZMZMK_BEHAVIOR_OPAQUE;
+    return ZMK_BEHAVIOR_OPAQUE;
 }
 
 // API Structure

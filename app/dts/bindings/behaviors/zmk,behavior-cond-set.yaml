@@ -3,6 +3,6 @@
 
 description: Set Conditional State
 
-compatible: "zmk,behavior-conditional-set"
+compatible: "zmk,behavior-cond-set"
 
 include: two_param.yaml
