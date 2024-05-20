@@ -79,7 +79,7 @@ static int conditional_state_changed_listener(const zmk_event_t *eh){
     const struct zmk_conditional_state_changed *event = as_zmk_conditional_state_changed(eh);
     
     if (event->slot >= CONDITION_SLOT_COUNT) {
-        LOG_ERR("requested slot if out-of-bounds: assert(%d < %d)", event->slot, CONDITION_SLOT_COUNT);
+        LOG_ERR("requested slot is out-of-bounds: assert(%d < %d)", event->slot, CONDITION_SLOT_COUNT);
         return ZMK_EV_EVENT_CAPTURED;
     }
     
