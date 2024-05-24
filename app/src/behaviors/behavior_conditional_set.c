@@ -31,7 +31,7 @@ static int on_conditional_set_binding_pressed(struct zmk_behavior_binding *bindi
     uint8_t condition = binding->param2;
 
     if (slot >= CONDITION_SLOT_COUNT) {
-        LOG_ERR("requested slot if out-of-bounds: assert(%d < %d)", slot, CONDITION_SLOT_COUNT);
+        LOG_ERR("requested slot is out-of-bounds: assert(%d < %d)", slot, CONDITION_SLOT_COUNT);
         return ZMK_BEHAVIOR_OPAQUE;
     }
 
