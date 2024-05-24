@@ -1,0 +1,32 @@
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+
+/ {
+    behaviors {
+        cond_0: cond_0 {
+            compatible = "zmk,behavior-cond";
+            #binding-cells = <0>;
+            slot = <0>;
+            bindings = <&kp A &kp B &kp C>;
+        };
+
+        cond_1: cond_1 {
+            compatible = "zmk,behavior-cond";
+            #binding-cells = <0>;
+            slot = <1>;
+            bindings = <&kp A &kp B &kp C>;
+        };
+    };
+ 
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <
+                &cond_0 &cond_set 0 0
+                &cond_set 0 1 &cond_set 0 2
+            >;
+        };
+    };
+};

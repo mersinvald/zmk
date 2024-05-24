@@ -1,0 +1,13 @@
+description: Conditional Behavior
+
+compatible: "zmk,behavior-cond"
+
+properties:
+  slot:
+    type: int
+    required: true
+  bindings:
+    type: phandle-array
+    required: true
+
+include: zero_param.yaml
